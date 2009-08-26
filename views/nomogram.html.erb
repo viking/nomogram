@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>Nomogram</title>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+  </head>
+  <body>
+  <%- fields.each do |field| -%>
+    <div id="<%= field.slug %>" class="field">
+      <div class="name"><%= field.name %></div>
+      <div class="meter" style="width: <%= field.width %>px; margin-left: <%= field.offset %>px;">
+      <%- field.ticks.each do |tick| -%>
+        <div class="tick" style="left: <%= tick.last %>px;">
+          <div class="label-wrapper">
+            &nbsp;
+            <div class="label"><%= tick.first %></div>
+          </div>
+        </div>
+      <%- end -%>
+      </div>
+    </div>
+    <div class="clear"></div>
+  <%- end -%>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+body {
+  font-family: "DejaVu Sans Mono";
+}
+.field {
+  margin-top: 50px;
+}
+.field .name {
+  float: left;
+  width: 300px;
+  height: 20px;
+}
+.field .meter {
+  float: left;
+  height: 20px;
+  border-bottom: 1px solid black;
+  position: relative;
+}
+.field .meter .tick {
+  position: absolute;
+  border-left: 1px solid black;
+  width: 1px;
+}
+.field .meter .tick .label-wrapper {
+  position: relative;
+}
+.field .meter .tick .label-wrapper .label {
+  position: absolute;
+  width: 40px;
+  height: 20px;
+  top: -20px;
+  left: -20px;
+  text-align: center;
+}
+.clear {
+  clear: both;
+  display: block;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
