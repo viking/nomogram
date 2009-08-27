@@ -3,7 +3,7 @@ require 'yaml'
 
 class Nomogram
   class Field
-    attr_reader :name, :ticks, :offset, :width, :slug
+    attr_reader :name, :ticks, :offset, :width, :slug, :points, :type
 
     def initialize(name, values, scale)
       @name = name
@@ -11,15 +11,17 @@ class Nomogram
       @values = values
       @scale = scale
       @ticks = []
+      @points = []
       @offset = 0
+      @type = self.class.to_s.split(/::/).last.downcase
       @count = values.first[1].is_a?(Array) ? values.first[1].count : values.count
 
       create_ticks
       @width = @ticks.last[1]
     end
 
-    def continuous?
-      @continuous ||= @ticks.count != 2 || !(%w{Yes No} - @ticks.collect{ |x| x[0] }).empty?
+    def boolean?
+      @boolean ||= @ticks.count == 2 && (%w{Yes No} - @ticks.collect{ |x| x[0] }).empty?
     end
 
     private
@@ -32,13 +34,15 @@ class Nomogram
                   when "false" then "No"
                   else label
                   end
-          data << [label, offset_for(i)]
+          points = points_for(i)
+          data << [label, offset_for(points), points]
         end
-        data.sort! { |a, b| a[1] <=> b[1] }
+        data.sort! { |a, b| a[2] <=> b[2] }
 
-        data.each_with_index do |(label, offset), i|
+        data.each_with_index do |(label, offset, points), i|
           @offset = offset if i == 0
           @ticks << [label, offset - @offset]
+          @points << points
         end
       end
 
@@ -46,8 +50,12 @@ class Nomogram
         @values.first[1][i].to_s
       end
 
-      def offset_for(i)
-        (@values.last[1][i] * @scale / 100).floor
+      def points_for(i)
+        @values.last[1][i]
+      end
+
+      def offset_for(points)
+        (points * @scale / 100).floor
       end
 
   end
@@ -62,8 +70,8 @@ class Nomogram
         @values[i].to_s
       end
 
-      def offset_for(i)
-        (@values[i] * @scale / 100).floor
+      def points_for(i)
+        @values[i]
       end
   end
 
@@ -71,13 +79,13 @@ class Nomogram
     attr_reader :max_points
 
     def initialize(values, scale)
-      super("Total Points", values, scale)
       @max_points = values.first[1].last
+      super("Total Points", values, scale)
     end
 
     private
-      def offset_for(i)
-        (i * @scale / (@count - 1)).floor
+      def points_for(i)
+        @values.first[1][i] * 100 / @max_points
       end
   end
 
@@ -88,8 +96,8 @@ class Nomogram
     end
 
     private
-      def offset_for(i)
-        (@values.first[1][i] * @scale / @max_points).floor
+      def points_for(i)
+        @values.first[1][i] * 100 / @max_points
       end
 
       def label_for(i)

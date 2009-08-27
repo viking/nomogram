@@ -46,7 +46,11 @@ class TestNomogram < Test::Unit::TestCase
       ['65', 340],
       ['70', 408]
     ], field.ticks
-    assert field.continuous?
+    assert_equal [
+      0, 8.51452681824213, 17.0290536364843, 25.5435804547264,
+      34.0581072729685, 42.5726340912107, 51.0871609094528
+    ], field.points
+    assert !field.boolean?
   end
 
   def test_handles_family_history_boolean
@@ -59,7 +63,7 @@ class TestNomogram < Test::Unit::TestCase
       ['No', 0],
       ['Yes', 209]
     ], field.ticks
-    assert !field.continuous?
+    assert field.boolean?
   end
 
   def test_handles_total_points
@@ -70,11 +74,11 @@ class TestNomogram < Test::Unit::TestCase
     assert_equal 800, field.width
     assert_equal [
       ['0', 0],
-      ['50', 133],
-      ['100', 266],
+      ['50', 128],
+      ['100', 264],
       ['150', 400],
-      ['200', 533],
-      ['250', 666],
+      ['200', 528],
+      ['250', 664],
       ['300', 800]
     ], field.ticks
   end
@@ -115,6 +119,7 @@ class TestNomogram < Test::Unit::TestCase
 
       meter = field.at("div.meter")
       assert meter
+      assert meter['class'].split(/ /).include?("type-"+fields[i].type)
       assert_equal "width: #{fields[i].width}px; margin-left: #{fields[i].offset}px;", meter['style']
 
       ticks = meter / "div.tick"
