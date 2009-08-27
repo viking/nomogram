@@ -12,13 +12,23 @@ body {
 .field .meter {
   float: left;
   height: 20px;
+  border: 0;
   border-bottom: 1px solid black;
   position: relative;
+  font-family: "DejaVu Sans Mono";
+  font-size: 1em;
+}
+.field .meter .ui-slider-handle {
+  height: 1em;
+  width: 1em;
+  margin-left: -0.5em;
+  top: 0.5em;
 }
 .field .meter .tick {
   position: absolute;
   border-left: 1px solid black;
   width: 1px;
+  top: 1px;
 }
 .field .meter .tick .label-wrapper {
   position: relative;
@@ -31,6 +41,14 @@ body {
   left: -20px;
   text-align: center;
 }
+.field .meter .marker {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 0;
+  left: -8px;
+  background: url(marker.jpg);
+}
 .clear {
   clear: both;
   display: block;
@@ -39,3 +57,4 @@ body {
   overflow: hidden;
   visibility: hidden;
 }
+

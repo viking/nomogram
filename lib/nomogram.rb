@@ -18,6 +18,10 @@ class Nomogram
       @width = @ticks.last[1]
     end
 
+    def continuous?
+      @continuous ||= @ticks.count != 2 || !(%w{Yes No} - @ticks.collect{ |x| x[0] }).empty?
+    end
+
     private
       def create_ticks
         data = []
@@ -93,7 +97,8 @@ class Nomogram
       end
   end
 
-  attr_reader :fields
+  attr_reader :fields, :content_for_layout
+  attr_accessor :title
 
   def initialize(config, options = {})
     @data  = YAML.load_file(config)
@@ -104,7 +109,10 @@ class Nomogram
   end
 
   def build
-    ERB.new(open(File.dirname(__FILE__)+"/../views/nomogram.html.erb").read, nil, "-").result(binding)
+    template = open(File.dirname(__FILE__)+"/../views/nomogram.html.erb").read
+    layout   = open(File.dirname(__FILE__)+"/../views/layout.html.erb").read
+    @content_for_layout = ERB.new(template, nil, "-").result(binding)
+    ERB.new(layout, nil, "-").result(binding)
   end
 
   private

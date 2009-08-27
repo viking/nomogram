@@ -46,6 +46,7 @@ class TestNomogram < Test::Unit::TestCase
       ['65', 340],
       ['70', 408]
     ], field.ticks
+    assert field.continuous?
   end
 
   def test_handles_family_history_boolean
@@ -58,6 +59,7 @@ class TestNomogram < Test::Unit::TestCase
       ['No', 0],
       ['Yes', 209]
     ], field.ticks
+    assert !field.continuous?
   end
 
   def test_handles_total_points
@@ -128,5 +130,12 @@ class TestNomogram < Test::Unit::TestCase
       end
     end
     assert_equal 9, (doc / "div.clear").count
+  end
+
+  def test_build_layout
+    nom = create_nomogram
+    nom.title = "Adult Asthma Risk Calculator"
+    doc = Hpricot(nom.build)
+    assert_equal "Adult Asthma Risk Calculator", (doc/"h1").inner_html
   end
 end
