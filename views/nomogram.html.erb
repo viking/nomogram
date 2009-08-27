@@ -18,8 +18,9 @@
     $('#<%= field.slug %> .meter').slider({
       min: <%= field.points[0] %>,
       max: <%= field.points[-1] %>,
-      step: <%= field.boolean? ? field.points[-1] - field.points[0] : 1 %>
-    });
+      step: <%= field.boolean? ? field.points[-1] - field.points[0] : 1 %>,
+      change: function(e, ui) { console.log(ui.value); }
+    })
     <%- end -%>
   <%- end -%>
   });

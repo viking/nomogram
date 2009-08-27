@@ -35,7 +35,7 @@
         height: 1em;
         width: 1em;
         margin-left: -0.5em;
-        top: 0.5em;
+        top: 0.6em;
       }
       .field .meter .tick {
         position: absolute;
@@ -179,38 +179,44 @@
     $('#age .meter').slider({
       min: 0,
       max: 51.0871609094528,
-      step: 1
-    });
+      step: 1,
+      change: function(e, ui) { console.log(ui.value); }
+    })
     $('#family-history-allergy .meter').data('points', [0, 26.2228726288918]);
     $('#family-history-allergy .meter').slider({
       min: 0,
       max: 26.2228726288918,
-      step: 26.2228726288918
-    });
+      step: 26.2228726288918,
+      change: function(e, ui) { console.log(ui.value); }
+    })
     $('#ever-wheezing .meter').data('points', [0, 25.1273871826235]);
     $('#ever-wheezing .meter').slider({
       min: 0,
       max: 25.1273871826235,
-      step: 25.1273871826235
-    });
+      step: 25.1273871826235,
+      change: function(e, ui) { console.log(ui.value); }
+    })
     $('#current-asthma-medication .meter').data('points', [0, 18.2871243966542]);
     $('#current-asthma-medication .meter').slider({
       min: 0,
       max: 18.2871243966542,
-      step: 18.2871243966542
-    });
+      step: 18.2871243966542,
+      change: function(e, ui) { console.log(ui.value); }
+    })
     $('#ever-asthma .meter').data('points', [0, 100]);
     $('#ever-asthma .meter').slider({
       min: 0,
       max: 100,
-      step: 100
-    });
+      step: 100,
+      change: function(e, ui) { console.log(ui.value); }
+    })
     $('#ever-allergic-rhinitis .meter').data('points', [0, 80.9041454279912]);
     $('#ever-allergic-rhinitis .meter').slider({
       min: 0,
       max: 80.9041454279912,
-      step: 80.9041454279912
-    });
+      step: 80.9041454279912,
+      change: function(e, ui) { console.log(ui.value); }
+    })
     $('#total-points .meter').data('points', [0, 16, 33, 50, 66, 83, 100]);
     $('#probability-of-asthma .meter').data('points', [-1.34915093114317, 15.3186814945467, 27.88720246079, 38.85168714093, 49.369938748678, 60.3344234288183, 72.9029443950613, 89.5707768207513]);
   });
